@@ -15,12 +15,16 @@ public class TestCertJna {
 	   // Works
 	   HANDLE handle = Crypt32.INSTANCE.CertOpenSystemStore(Pointer.NULL, "MY");
 	   
+           System.out.println(handle);
+           
 	   // Works
-		CERT_CONTEXT.ByReference context = Cryptui.INSTANCE.CryptUIDlgSelectCertificateFromStore(handle, 0,
+		CERT_CONTEXT context = Cryptui.INSTANCE.CryptUIDlgSelectCertificateFromStore(handle, 0,
 				"", "", 2, 0, null);
 		
-		PCERT_CHAIN_CONTEXT pChainContext = new PCERT_CHAIN_CONTEXT();
-		CERT_CHAIN_PARA.ByReference pChainPara = new CERT_CHAIN_PARA.ByReference();
+                System.out.println(context);
+                
+		CERT_CHAIN_CONTEXT pChainContext = new CERT_CHAIN_CONTEXT();
+		CERT_CHAIN_PARA pChainPara = new CERT_CHAIN_PARA();
 		
 		pChainPara.cbSize = pChainPara.size();
 		pChainPara.RequestedUsage.dwType = Wincrypt.USAGE_MATCH_TYPE_AND;
@@ -40,21 +44,23 @@ public class TestCertJna {
 		// Does not work
 		Crypt32.INSTANCE.CertGetCertificateChain(null, context, null, null, pChainPara, 0, null, pChainContext);
 
-		CERT_CHAIN_POLICY_PARA.ByReference ChainPolicyPara = new CERT_CHAIN_POLICY_PARA.ByReference();
-		CERT_CHAIN_POLICY_STATUS.ByReference PolicyStatus = new CERT_CHAIN_POLICY_STATUS.ByReference();
+                System.out.println(pChainContext);
+                
+		CERT_CHAIN_POLICY_PARA ChainPolicyPara = new CERT_CHAIN_POLICY_PARA();
+		CERT_CHAIN_POLICY_STATUS PolicyStatus = new CERT_CHAIN_POLICY_STATUS();
 
 		ChainPolicyPara.cbSize = ChainPolicyPara.size();
 		ChainPolicyPara.dwFlags = 0;
 
 		PolicyStatus.cbSize = PolicyStatus.size();
 
-		PCERT_CHAIN_CONTEXT pChainContext2 = new PCERT_CHAIN_CONTEXT();
-		pChainContext2.certChainContext = pChainContext.certChainContext;
-
 		// Works
-		Crypt32.INSTANCE.CertVerifyCertificateChainPolicy(Wincrypt.CERT_CHAIN_POLICY_BASE, pChainContext2,
+		boolean result = Crypt32.INSTANCE.CertVerifyCertificateChainPolicy(Wincrypt.CERT_CHAIN_POLICY_BASE, pChainContext,
 				ChainPolicyPara, PolicyStatus);
 		
+                System.out.println(result);
+                System.out.println(PolicyStatus);
+                
 		System.out.println("test");
    }
 }

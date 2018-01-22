@@ -7,10 +7,10 @@ import com.sun.jna.WString;
 import com.sun.jna.platform.win32.Guid.GUID;
 import com.sun.jna.platform.win32.WTypes.LPSTR;
 import com.sun.jna.platform.win32.WTypes.LPWSTR;
+import com.sun.jna.platform.win32.WinBase.FILETIME;
 import com.sun.jna.platform.win32.WinCrypt.DATA_BLOB;
 import com.sun.jna.platform.win32.WinDef.*;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
-import com.sun.jna.ptr.PointerByReference;
 
 import java.util.Arrays;
 import java.util.List;
@@ -305,23 +305,6 @@ public interface Wincrypt {
 		}
 	}
 
-	public static class PCERT_CHAIN_PARA extends Structure {
-
-		public CERT_CHAIN_PARA.ByReference certChainPara;
-
-		@Override
-		protected List<String> getFieldOrder() {
-			return Arrays.asList("certChainPara");
-		}
-
-		public static class ByReference extends PCERT_CHAIN_PARA implements Structure.ByReference {
-		}
-
-		public static class ByValue extends PCERT_CHAIN_PARA implements Structure.ByValue {
-		}
-	}
-
-
 	public static class CERT_CHAIN_PARA extends Structure {
 
 		public int cbSize;
@@ -360,22 +343,6 @@ public interface Wincrypt {
 		}
 
 		public static class ByReference extends CERT_CHAIN_POLICY_STATUS implements Structure.ByReference {
-		}
-	}
-
-	public static class PCERT_SIMPLE_CHAIN extends Structure {
-
-		public CERT_SIMPLE_CHAIN.ByReference certSimpleChain;
-
-		@Override
-		protected List<String> getFieldOrder() {
-			return Arrays.asList("certSimpleChain");
-		}
-
-		public static class ByReference extends PCERT_SIMPLE_CHAIN implements Structure.ByReference {
-		}
-
-		public static class ByValue extends PCERT_SIMPLE_CHAIN implements Structure.ByValue {
 		}
 	}
 
@@ -418,9 +385,9 @@ public interface Wincrypt {
 		public int cbSize;
 		public CERT_TRUST_STATUS TrustStatus;
 		public int cChain;
-		public PCERT_SIMPLE_CHAIN rgpChain;
+		public CERT_SIMPLE_CHAIN.ByReference rgpChain;
 		public int cLowerQualityChainContext;
-		public PCERT_CHAIN_CONTEXT rgpLowerQualityChainContext;
+		public CERT_CHAIN_CONTEXT.ByReference rgpLowerQualityChainContext;
 		public boolean fHasRevocationFreshnessTime;
 		public int dwRevocationFreshnessTime;
 		public int dwCreateFlags;
@@ -451,38 +418,6 @@ public interface Wincrypt {
 		}
 
 		public static class ByReference extends CERT_CONTEXT implements Structure.ByReference {
-		}
-	}
-
-	public static class PCERT_CONTEXT extends Structure {
-
-		public CERT_CONTEXT.ByReference certContext;
-
-		@Override
-		protected List<String> getFieldOrder() {
-			return Arrays.asList("certContext");
-		}
-
-		public static class ByReference extends PCERT_CONTEXT implements Structure.ByReference {
-		}
-
-		public static class ByValue extends PCERT_CONTEXT implements Structure.ByValue {
-		}
-	}
-
-	public static class PCERT_CHAIN_CONTEXT extends Structure {
-
-		public CERT_CHAIN_CONTEXT.ByReference certChainContext;
-
-		@Override
-		protected List<String> getFieldOrder() {
-			return Arrays.asList("certChainContext");
-		}
-
-		public static class ByReference extends PCERT_CHAIN_CONTEXT implements Structure.ByReference {
-		}
-
-		public static class ByValue extends PCERT_CHAIN_CONTEXT implements Structure.ByValue {
 		}
 	}
 
@@ -708,11 +643,11 @@ public interface Wincrypt {
 
 		public int cbSize;
 		public int dwMsgEncodingType;
-		public PCERT_CONTEXT pSigningCert;
+		public CERT_CONTEXT.ByReference pSigningCert;
 		public CRYPT_ALGORITHM_IDENTIFIER HashAlgorithm;
 		public Pointer pvHashAuxInfo;
 		public int cMsgCert;
-		public PCERT_CONTEXT.ByReference rgpMsgCert;
+		public CERT_CONTEXT.ByReference rgpMsgCert;
 		public int cMsgCrl;
 		public CRL_CONTEXT.ByReference rgpMsgCrl;
 		public int cAuthAttr;
@@ -730,23 +665,6 @@ public interface Wincrypt {
 		}
 
 		public static class ByReference extends CRYPT_SIGN_MESSAGE_PARA implements Structure.ByReference {
-		}
-	}
-
-	public static class FILETIME extends Structure {
-
-		public int dwLowDateTime;
-		public int dwHighDateTime;
-
-		@Override
-		protected List<String> getFieldOrder() {
-			return Arrays.asList("dwLowDateTime", "dwHighDateTime");
-		}
-
-		public static class ByReference extends FILETIME implements Structure.ByReference {
-		}
-
-		public static class ByValue extends FILETIME implements Structure.ByValue {
 		}
 	}
 }

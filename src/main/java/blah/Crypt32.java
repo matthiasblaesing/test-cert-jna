@@ -36,9 +36,9 @@ public interface Crypt32 extends StdCallLibrary {
 	 * https://msdn.microsoft.com/en-us/library/windows/desktop/aa376078(v=vs.85
 	 * ).aspx
 	 */
-	boolean CertGetCertificateChain(Pointer hChainEngine, CERT_CONTEXT.ByReference pCertContext, Pointer pTime,
-			Pointer hAdditionalStore, CERT_CHAIN_PARA.ByReference pChainPara, int dwFlags, Pointer pvReserved,
-			PCERT_CHAIN_CONTEXT ppChainContext);
+	boolean CertGetCertificateChain(Pointer hChainEngine, CERT_CONTEXT pCertContext, Pointer pTime,
+			Pointer hAdditionalStore, CERT_CHAIN_PARA pChainPara, int dwFlags, Pointer pvReserved,
+			CERT_CHAIN_CONTEXT ppChainContext);
 
 	/*
 	 * https://msdn.microsoft.com/en-us/library/windows/desktop/aa376075(v=vs.85
@@ -62,7 +62,7 @@ public interface Crypt32 extends StdCallLibrary {
 	 * https://msdn.microsoft.com/en-us/library/windows/desktop/aa377163(v=vs.85
 	 * ).aspx
 	 */
-	boolean CertVerifyCertificateChainPolicy(int pszPolicyOID, PCERT_CHAIN_CONTEXT pChainContext,
-			CERT_CHAIN_POLICY_PARA.ByReference pPolicyPara, CERT_CHAIN_POLICY_STATUS.ByReference pPolicyStatus);
+	boolean CertVerifyCertificateChainPolicy(int pszPolicyOID, CERT_CHAIN_CONTEXT pChainContext,
+			CERT_CHAIN_POLICY_PARA pPolicyPara, CERT_CHAIN_POLICY_STATUS pPolicyStatus);
 
 } // Crypt32
